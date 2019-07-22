@@ -1,0 +1,135 @@
+<Workspace Version="1.3.3.4111" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.Filename guid="963258c8-fbb6-4dea-8f19-7619fa758437" type="CoreNodeModels.Input.Filename" nickname="File Path" x="1100.5" y="237" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>.\stairs.csv</System.String>
+      <HintPath>C:\Users\andre\Desktop\Проект\csv\stairs.csv</HintPath>
+    </CoreNodeModels.Input.Filename>
+    <CoreNodeModels.CreateList guid="82d3799e-c075-4d28-9c18-294d4f050caa" type="CoreNodeModels.CreateList" nickname="List.Create" x="918.5" y="431" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="9">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <PortInfo index="5" default="False" />
+      <PortInfo index="6" default="False" />
+      <PortInfo index="7" default="False" />
+      <PortInfo index="8" default="False" />
+    </CoreNodeModels.CreateList>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="077a7d61-efe7-4882-98a6-637778835e49" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CSV.WriteToFile" x="1171.5" y="434" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.IO.CSV.WriteToFile@string,var[][]">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <PythonNodeModels.PythonNode guid="aa66960c-258e-424b-a2cf-523f7279498d" type="PythonNodeModels.PythonNode" nickname="Stairs" x="554.5" y="439" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import sys
+import clr
+# import Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+# import Revit API UI
+clr.AddReference('RevitAPIUI')
+# import Revit Services
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager 
+# import ProtoGeometry 
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+# get the current Revit Document 
+doc = DocumentManager.Instance.CurrentDBDocument
+# get the current Revit application
+app = DocumentManager.Instance.CurrentUIApplication.Application
+# get the current UI application
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+
+list_stairs = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Stairs).WhereElementIsNotElementType().ToElements()
+
+list1 = []
+list2 = []
+list3 = []
+list4 = []
+list5 = []
+list6 = []
+list7 = []
+list8 = []
+list9 = []
+
+
+for s in list_stairs:
+	typeId = s.GetTypeId()
+	type = doc.GetElement(typeId)
+	try:
+		a = s.Id
+	except:
+		a = 0
+	list1.append(a)
+	try:
+		b = s.UniqueId
+	except:
+		b = 0
+	list2.append(b)
+	try:
+		c = s.LookupParameter("Navisworks").AsString()
+	except:
+		c = 0
+	list3.append(c)
+	try:
+		d = s.LookupParameter("Уровень").AsValueString()
+	except:
+		d = 0
+	list4.append(d)
+	try:
+		e = s.LookupParameter("Номер секции №").AsString()
+	except:
+		e = 0
+	list5.append(e)
+	try:
+		f = s.LookupParameter("Категория").AsValueString()
+	except:
+		f = 0
+	list6.append(f)
+	list7.append(type)
+	try:
+		g = s.Name
+	except:
+		g = 0
+	list8.append(g)
+	try:
+		i = s.LookupParameter("Объем").AsValueString()
+	except:
+		i = 0
+	list9.append(i)
+
+
+	
+OUT = list1, list2, list3, list4, list5, list6, list7, list8, list9</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="774" y="446" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="a[0];&#xA;a[1];&#xA;a[2];&#xA;a[3];&#xA;a[4];&#xA;a[5];&#xA;a[6];&#xA;a[7];&#xA;a[8];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="963258c8-fbb6-4dea-8f19-7619fa758437" start_index="0" end="077a7d61-efe7-4882-98a6-637778835e49" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="82d3799e-c075-4d28-9c18-294d4f050caa" start_index="0" end="077a7d61-efe7-4882-98a6-637778835e49" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="aa66960c-258e-424b-a2cf-523f7279498d" start_index="0" end="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="0" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="1" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="2" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="3" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="4" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="5" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="5" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="6" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="6" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="7" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="7" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c1f879c3-9c34-4f3b-94f8-31a7b5265daf" start_index="8" end="82d3799e-c075-4d28-9c18-294d4f050caa" end_index="8" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Фоновый просмотр" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
